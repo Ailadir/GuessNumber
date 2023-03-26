@@ -28,7 +28,6 @@ function restartGame() {
   getAnswer();
   body.style.backgroundColor = 'rgb(34,34,34)';
   randomNumber = getAnswer();
-  console.log(randomNumber);
   document.querySelector('.score').textContent = 20;
   score = 20;
   highscore = document.querySelector('.highscore').textContent;
@@ -41,14 +40,11 @@ function restartGame() {
 
 document.querySelector('.check').addEventListener('click', function () {
   getNumbers();
-  console.log(randomNumber);
-  console.log(userGuess);
   if (userGuess == '') {
     alert('Put some number there, boy.');
   } else if (userGuess != randomNumber) {
     score -= 1;
     document.querySelector('.score').textContent = score;
-    console.log('try again');
     if (userGuess > randomNumber) {
       document.querySelector('.message').textContent = 'Too high!';
     } else {
