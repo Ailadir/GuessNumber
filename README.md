@@ -2,6 +2,7 @@
 
 ## About the project:
 This is a game where you must guess the correct number from 1 to 20.
+Still working on responsiveness.
 
 ### Features
 There are currently no features listed for this project.
