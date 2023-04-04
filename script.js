@@ -1,74 +1,65 @@
 const body = document.querySelector('body');
 const button = document.querySelector('.check');
-
 let hint = document.querySelector('.message');
 let score = document.querySelector('.score').textContent;
-let highscore = 0;
 let rightNumber = document.querySelector('.number');
-let userGuess = 0;
+let userGuess = document.querySelector('.guess').value;
+let highscore = 0;
+let randomNumber = getRandomNumber();
 
-//Function expression to get random nubmer for guessing
-const getAnswer = function () {
+//
+function getRandomNumber() {
   return Math.floor(Math.random() * 21);
-};
-let randomNumber = getAnswer();
-
-//Function to update user input
-function getNumbers() {
-  userGuess = document.querySelector('.guess').value;
-  return userGuess;
-}
-
-//Code to clean input box on refreshing web-page.
-window.onload = () => {
-  document.querySelector('.guess').value = '';
-};
-
-//Function to restart all values and get new number for guessing
-function restartGame() {
-  getAnswer();
-  body.style.backgroundColor = 'rgb(34,34,34)';
-  randomNumber = getAnswer();
-  document.querySelector('.score').textContent = 20;
-  score = 20;
-  highscore = document.querySelector('.highscore').textContent;
-  document.querySelector('.number').textContent = '?';
-  document.querySelector('.guess').value = '';
-  button.disabled = false;
 }
 
 //Function ,binded on check button, to play the game(Update user input everytime button check is used; evaluate equality of user input and number to guess and providing hints for guessing)
 function playGame() {
-  getNumbers();
+  userGuess = document.querySelector('.guess').value;
+
+  if (userGuess > randomNumber) {
+    hint.textContent = 'Too high!';
+  } else {
+    hint.textContent = 'Too low!';
+  }
+
   if (userGuess == '') {
     alert('Put some number there, boy.');
   } else if (userGuess != randomNumber) {
     score -= 1;
     document.querySelector('.score').textContent = score;
-    if (userGuess > randomNumber) {
-      document.querySelector('.message').textContent = 'Too high!';
-    } else {
-      document.querySelector('.message').textContent = 'Too low!';
-    }
   } else if (userGuess == randomNumber) {
     body.style.backgroundColor = 'rgb(0, 128, 0)';
-    document.querySelector('.message').textContent = 'Correct Number!';
-    document.querySelector('.number').textContent = userGuess;
+    hint.textContent = 'Correct Number!';
+    rightNumber.textContent = userGuess;
     button.disabled = true;
+
     if (highscore < score) {
-      return (document.querySelector('.highscore').textContent = score);
+      document.querySelector('.highscore').textContent = score;
     }
   }
 }
 
-//Function to restart a game,binded on 'again' button.
-document.querySelector('.again').addEventListener('click', restartGame);
+//Function to restart all values and get new number for guessing
+function restartGame() {
+  randomNumber = getRandomNumber();
 
-//Function to play a game binded on check button and on pushing enter button.
-button.onclick = playGame;
+  body.style.backgroundColor = 'rgb(34,34,34)';
+  score = 20;
+  highscore = document.querySelector('.highscore').textContent;
+  document.querySelector('.score').textContent = 20;
+  rightNumber.textContent = '?';
+  document.querySelector('.guess').value = '';
+  button.disabled = false;
+  document.querySelector('.message').textContent = 'Start guessing...';
+}
+
+//Binding function on DOM events.
+button.addEventListener('click', playGame);
+
+document.querySelector('.again').addEventListener('click', restartGame);
 
 document.querySelector('.guess').addEventListener('keyup', function (e) {
   if (e.key === 'Enter') {
-    button.click();
+    playGame();
   }
 });
