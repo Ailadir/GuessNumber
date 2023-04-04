@@ -1,5 +1,6 @@
 const body = document.querySelector('body');
 const button = document.querySelector('.check');
+
 let hint = document.querySelector('.message');
 let score = document.querySelector('.score').textContent;
 let highscore = 0;
@@ -37,8 +38,7 @@ function restartGame() {
 }
 
 //Function ,binded on check button, to play the game(Update user input everytime button check is used; evaluate equality of user input and number to guess and providing hints for guessing)
-
-document.querySelector('.check').addEventListener('click', function () {
+function playGame() {
   getNumbers();
   if (userGuess == '') {
     alert('Put some number there, boy.');
@@ -59,7 +59,16 @@ document.querySelector('.check').addEventListener('click', function () {
       return (document.querySelector('.highscore').textContent = score);
     }
   }
-});
+}
 
-//Function ,binded on 'again' button, to restart a game.
+//Function to restart a game,binded on 'again' button.
 document.querySelector('.again').addEventListener('click', restartGame);
+
+//Function to play a game binded on check button and on pushing enter button.
+button.onclick = playGame;
+
+document.querySelector('.guess').addEventListener('keyup', function (e) {
+  if (e.key === 'Enter') {
+    button.click();
+  }
+});
